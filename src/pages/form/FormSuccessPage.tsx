@@ -10,7 +10,7 @@ import {
 import { FormContext } from "@/context/FormContext.tsx";
 import { FORM_ROUTES } from "@/routes/form-routes.ts";
 
-const API_ENDPOINT_URL = import.meta.env.VITE_API_ENDPOINT as string;
+const API_ENDPOINT_URL = import.meta.env.VITE_API_ENDPOINT;
 const LOG_DATA = true;
 
 export default function FormSuccessPage() {
