@@ -11,7 +11,7 @@ import {
 import { FormContext } from "@/context/FormContext.tsx";
 import { FORM_ROUTES } from "@/routes/form-routes.ts";
 
-const API_ENDPOINT_URL = "https://httpbin.org/post";
+const API_ENDPOINT_URL = "http://localhost:3000/postToSlack";
 const LOG_DATA = true;
 
 export default function FormSuccessPage() {
@@ -19,6 +19,9 @@ export default function FormSuccessPage() {
     mutationFn: async (formData: FormData) => {
       const response = await fetch(API_ENDPOINT_URL, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: formData,
       });
       if (!response.ok) throw new Error("Data upload failed!");
@@ -72,20 +75,20 @@ export default function FormSuccessPage() {
       zipCode,
       dateOfBirth,
     } = form2;
-    formData.append("first-name", firstName);
-    formData.append("last-name", lastName);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
     formData.append("phone", phone);
     formData.append("ssn", ssn);
-    formData.append("home-address", homeAddress);
+    formData.append("homeAddress", homeAddress);
     formData.append("city", city);
     formData.append("state", state);
-    formData.append("zip-code", zipCode);
-    formData.append("date-of-birth", dateOfBirth);
+    formData.append("zipCode", zipCode);
+    formData.append("dateOfBirth", dateOfBirth);
 
     // Append form 3 data
     const { idFront, idBack } = form3;
-    if (idFront) formData.append("id-front", idFront);
-    if (idBack) formData.append("id-back", idBack);
+    if (idFront) formData.append("idFront", idFront);
+    if (idBack) formData.append("idBack", idBack);
 
     // Perform the mutation
     mutate(formData);
