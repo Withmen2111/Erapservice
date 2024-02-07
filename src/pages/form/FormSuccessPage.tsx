@@ -10,7 +10,6 @@ import {
 import { FormContext } from "@/context/FormContext.tsx";
 import { FORM_ROUTES } from "@/routes/form-routes.ts";
 
-const API_ENDPOINT_URL = import.meta.env.VITE_API_ENDPOINT;
 const LOG_DATA = true;
 
 export default function FormSuccessPage() {
@@ -77,10 +76,13 @@ export default function FormSuccessPage() {
         if (idBack) formData.append("idBack", idBack);
 
         // Perform the API call
-        const response = await fetch(API_ENDPOINT_URL, {
-          method: "POST",
-          body: formData,
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/postToSlack`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
         if (!response.ok) {
           setIsError(true);

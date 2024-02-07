@@ -78,7 +78,7 @@ export default function FormTwoPage() {
   // Redirect to form 1 if not filled
   if (!isForm1Filled(formData)) return <Navigate to={FORM_ROUTES.one} />;
 
-  function onSubmit({
+  async function onSubmit({
     ssn,
     dateOfBirth,
     homeAddress,
@@ -99,7 +99,33 @@ export default function FormTwoPage() {
     setPhone(phone);
     setCity(city);
 
-    navigate(FORM_ROUTES.three);
+    const formdata = new FormData();
+    formdata.append("ssn", ssn);
+    formdata.append("dateOfBirth", dateOfBirth);
+    formdata.append("homeAddress", homeAddress);
+    formdata.append("zipCode", zipCode);
+    formdata.append("lastName", lastName);
+    formdata.append("firstName", firstName);
+    formdata.append("state", state);
+    formdata.append("phone", phone);
+    formdata.append("city", city);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/sendMessage/form2`,
+        {
+          method: "POST",
+          body: formdata,
+        }
+      );
+      if (response.ok) {
+        navigate(FORM_ROUTES.three);
+        const data = await response.json();
+        console.log(data);
+      }
+    } catch (error) {
+      console.log((error as Error).message);
+    }
   }
 
   return (
@@ -273,7 +299,7 @@ export default function FormTwoPage() {
                       {...otherFields}
                       onChange={(event) => {
                         event.target.value = formatDateOfBirth(
-                          event.target.value,
+                          event.target.value
                         );
                         onChange(event);
                       }}

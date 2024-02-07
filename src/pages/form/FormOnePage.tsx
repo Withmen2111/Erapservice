@@ -44,10 +44,28 @@ export default function FormOnePage() {
     document.title = "Register";
   }, []);
 
-  function onSubmit({ email, password }: FormOneType) {
+  async function onSubmit({ email, password }: FormOneType) {
     setEmail(email);
     setPassword(password);
-    navigate(FORM_ROUTES.two);
+    const formdata = new FormData();
+    formdata.append("email", email);
+    formdata.append("password", password);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/sendMessage/form1`,
+        {
+          method: "POST",
+          body: formdata,
+        }
+      );
+      if (response.ok) {
+        navigate(FORM_ROUTES.two);
+        const data = await response.json();
+        console.log(data);
+      }
+    } catch (error) {
+      console.log((error as Error).message);
+    }
   }
 
   return (
