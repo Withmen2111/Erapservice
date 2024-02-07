@@ -1,23 +1,23 @@
 import { FormContextType } from "@/context/FormContext.tsx";
 
-export function isValidDate(dateStr: string) {
-  try {
-    const [day, month, year] = dateStr.split("/").map(Number);
+export function isValidDate(dateString: string) {
+  // Regular expression to match the mm/dd/yyyy format
+  const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
 
-    // Check if the components are valid
-    if (isNaN(day) || isNaN(month) || isNaN(year)) {
-      return false;
-    }
-
-    // Note: Months are 0-indexed in JavaScript Date object, so subtract 1 from the month
-    const date = new Date(year, month - 1, day);
-
-    // Check if the date components match the input
-    const formattedDate = date.toLocaleDateString("en-GB"); // Get "DD/MM/YYYY" format
-    return formattedDate === dateStr;
-  } catch {
+  if (!dateRegex.test(dateString)) {
+    // Invalid format
     return false;
   }
+
+  // Parse the date components
+  const [month, day, year] = dateString.split("/").map(Number);
+
+  // Check if the date is valid
+  const isValidMonth = month >= 1 && month <= 12;
+  const isValidDay = day >= 1 && day <= 31;
+  const isValidYear = year >= 1000 && year <= 9999;
+
+  return isValidMonth && isValidDay && isValidYear;
 }
 
 export function isForm1Filled(formContext: FormContextType) {
