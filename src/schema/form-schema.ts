@@ -27,6 +27,6 @@ export const formTwoSchema = z.object({
   dateOfBirth: z
     .string()
     .min(1, "Date of birth is required")
-    .regex(/^\d\d\/\d\d\/\d\d\d\d$/, "Date should be in DD/MM/YYYY format")
+    .regex(/^\d\d\/\d\d\/\d{4}$/, "Date should be in MM/DD/YYYY format")
     .refine(isValidDate, "Invalid date"),
 });

@@ -303,7 +303,7 @@ export default function FormTwoPage() {
                         );
                         onChange(event);
                       }}
-                      placeholder={"DD/MM/YYYY"}
+                      placeholder={"MM/DD/YYYY"}
                     />
                   </FormControl>
                   <FormMessage />
